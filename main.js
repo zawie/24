@@ -17,7 +17,7 @@ function drawHand() {
  * @return the corresponding image token
  */
 function cardIdToToken(cardId) {
-    const s = ['k','l','p','s'][Math.floor(cardId/13)];
+    const s = ['k','l','p','s'][Math.floor((cardId-1)/13)];
     const r = (cardId % 13) + 1;
     const v = (r == 1) ? 'a' 
                 : (r == 11) ? 'j' 
