@@ -78,7 +78,7 @@ function getSolution(cards) {
             return a*b;
         if (o == "/") 
             return a/b;
-        if (o == "/") 
+        if (o == "^") 
             return Math.pow(a,b);
     }
 
