@@ -113,7 +113,7 @@ window.onload = function() {
         cards = Array.from(drawHand());
         solution = getSolution(cards);
     }
-    console.log(solution);
+
     for(i = 0; i < 4; i ++) {
         console.log("c"+i, cards[i], cardIdToToken(cards[i]));
         document.getElementById("c"+i).src = cardIdToImage(cards[i]);
