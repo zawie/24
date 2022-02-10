@@ -1,5 +1,5 @@
-html, body { height: 100%; padding: 0; margin: 0; }
-div { width: 50%; height: 50%; float: left; }
+html, body { height: 98%; padding: 10px; }
+
 img { height: 90%; 
     margin-left: auto;
     margin-right: auto;
@@ -7,8 +7,8 @@ img { height: 90%;
     margin-bottom: auto;
     display: block;
 }
-*{padding:0;margin:0;}
 
+.quad { width: 50%; height: 50%; float: left; }
 .float{
 	position:fixed;
 	width:120px;
