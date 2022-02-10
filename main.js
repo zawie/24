@@ -26,15 +26,14 @@ function cardIdToValue(cardId) {
  * @return the corresponding image token
  */
 function cardIdToToken(cardId) {
-    const s = ['k','l','p','s'][Math.floor((cardId-1)/13)];
+    const s = ['C','D','S','H'][Math.floor((cardId-1)/13)];
     const r = cardIdToValue(cardId);
     const v = (r == 1) ? 'a' 
-                : (r == 11) ? 'j' 
-                : (r == 12) ? 'q' 
-                : (r == 13) ? 'k' 
-                : (r == 13) ? 'k' 
+                : (r == 11) ? 'J' 
+                : (r == 12) ? 'Q' 
+                : (r == 13) ? 'K' 
                 : r;
-    return s+v;
+    return v+s;
 }
 
 /**
@@ -43,7 +42,7 @@ function cardIdToToken(cardId) {
  * @return the corresponding image
  */
 function cardIdToImage(cardId) {
-    return 'cards/'+cardIdToToken(cardId)+'.png.webp'
+    return `deck/Minicard_${cardIdToToken(cardId)}.svg`
 }
 
 const permutator = (inputArr) => {
