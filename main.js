@@ -70,14 +70,16 @@ function getSolution(cards) {
     const ops = ["+", "-", "*", "/", "^"];
 
     function f(a, o, b) {
+        if (a == NaN || b == NaN)
+            return NaN;
         if (o == "+") 
             return a+b;
         if (o == "-") 
             return a-b;
         if (o == "*") 
             return a*b;
-        if (o == "/") 
-            return a/b;
+        if (o == "/")
+            return (a % b) == 0 ? a/b : NaN; //Exclude fractions
         if (o == "^") 
             return Math.pow(a,b);
     }
