@@ -68,6 +68,7 @@ const permutator = (inputArr) => {
   
 function getSolution(cards) {
     const ops = ["+", "-", "*", "/", "^"];
+    var solutions = [];
 
     function f(a, o, b) {
         if (a == NaN || b == NaN)
@@ -98,22 +99,23 @@ function getSolution(cards) {
                     const op2 = ops[k];
                     const v = f(p[0], op0, f(p[1], op1, f(p[2], op2, p[3])));
                     const s = `${p[0]} ${op0} (${p[1]} ${op1} (${p[2]} ${op2} ${p[3]}))`
-                    if (v == 24)
-                        return s;
+                    if (v == 24) {
+                        solutions.push(s);
+                    }
                 }
             }
         }
     }
-    return null;
+    return solutions;
 }
 
 
 window.onload = function() {
-    let solution = null;
     let cards = null;
-    while (solution == null) {
+    let solutions = [];
+    while (solutions.length < 1) {
         cards = Array.from(drawHand());
-        solution = getSolution(cards);
+        solutions = getSolution(cards)
     }
 
     for(i = 0; i < 4; i ++) {
@@ -122,7 +124,10 @@ window.onload = function() {
     } 
 
     document.getElementById('sol').onclick = function() {
-        if (confirm("A solution is:\n"+solution)) 
+        const l = solutions.length;
+        const body = solutions.join('\n')
+        if (l == 1 ? confirm(`There is ${1} solution:\n${body}`) 
+                    :confirm(`There are ${l} solutions:\n${body}`))
             location.reload();
     }
 }
