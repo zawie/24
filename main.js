@@ -139,7 +139,7 @@ function getSolution(cards) {
 window.onload = function() {
 
     document.getElementById('help').onclick = function() {
-        confirm("Combine the four cards using addition, subtraction, multiplication, division, and exponation such that it totals 24.\n(A=1, J=11, Q=12, K=13)")
+        alert("Combine the four cards using addition, subtraction, multiplication, division, and exponation such that it totals 24.\n(A=1, J=11, Q=12, K=13)")
     }
 
     let cards = null;
