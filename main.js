@@ -97,7 +97,7 @@ function getSolution(cards) {
                     const op1 = ops[j];
                     const op2 = ops[k];
                     const v0 = f(p[0], op0, f(p[1], op1, f(p[2], op2, p[3])));
-                    const v1 = f(f(f(p[0], op1, p[1]), op0, p[2]), op2, p[3]);
+                    const v1 = f(f(f(p[0], op0, p[1]), op1, p[2]), op2, p[3]);
                     const s0 = `${p[0]} ${op0} (${p[1]} ${op1} (${p[2]} ${op2} ${p[3]}))`
                     const s1 = `((${p[0]} ${op0} ${p[1]}) ${op1} ${p[2]}) ${op2} ${p[3]}`
                     if (v0 == 24) 
