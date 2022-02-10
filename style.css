@@ -11,10 +11,10 @@ img { height: 90%;
 .quad { width: 50%; height: 50%; float: left; }
 .float{
 	position:fixed;
-	width:20%;
-    height:20%;
-    max-width: 120px;
-    max-height: 120px;
+	width:120px;
+    height:120px;
+    min-width: 15vh;
+    min-height: 15vh;
 	bottom:40px;
     right:40px;
     font-size: large;
