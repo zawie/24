@@ -8,25 +8,34 @@ img { height: 90%;
     display: block;
 }
 
-.quad { width: 50%; height: 50%; float: left; }
-.float{
+button {
 	position:fixed;
 	width:120px;
     height:120px;
     min-width: 15vh;
     min-height: 15vh;
-	bottom:40px;
-    right:40px;
     font-size: large;
-	background-color:rgb(72, 214, 103);
+    font-weight: bold;
     color: black;
-    border-width: 5px;
+    border-width: 1vh;
     border-color: rgb(25, 27, 24);
 	text-align:center;
-    box-shadow: 2px 2px 3px #999;
     font-family: "Andale Mono", monospace;
 }
+.quad { width: 50%; height: 50%; float: left; }
 
 .my-float{
 	margin-top:22px;
+}
+
+#sol {
+    bottom:40px;
+    right:40px;
+    background-color:greenyellow;
+}
+
+#help {
+    bottom:40px;
+    left:40px;
+    background-color:gold;
 }

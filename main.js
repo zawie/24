@@ -113,6 +113,11 @@ function getSolution(cards) {
 
 
 window.onload = function() {
+
+    document.getElementById('help').onclick = function() {
+        confirm("Objective:Try to combine the four cards using addition, subtraction, multiplication, and exponation.\nA=1, J=11, Q=12, K=13")
+    }
+
     let cards = null;
     let solutions = [];
     while (solutions.length < 1) {
