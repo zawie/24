@@ -1,0 +1,7 @@
+html, body { height: 100%; padding: 0; margin: 0; }
+div { width: 50%; height: 50%; float: left; }
+#NW { background: #DDD; }
+#NE { background: #AAA; }
+#SW { background: #777; }
+#SE { background: #444; }
+#CARD {}
