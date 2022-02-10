@@ -7,13 +7,22 @@ img { height: 90%;
     margin-bottom: auto;
     display: block;
 }
-.block {
-    display: block;
-    width: 100%;
-    border: none;
-    background-color: #04AA6D;
-    padding: 14px 28px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-  }
+*{padding:0;margin:0;}
+
+.float{
+	position:fixed;
+	width:120px;
+	height:120px;
+	bottom:40px;
+    right:40px;
+    font-size: large;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:22px;
+}
