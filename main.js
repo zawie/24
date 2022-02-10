@@ -121,7 +121,7 @@ window.onload = function() {
 
     document.getElementById('sol').onclick = function() {
         if (confirm("A solution is:\n"+solution)) 
-            location.reload;
+            location.reload();
     }
 }
 
