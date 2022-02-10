@@ -120,7 +120,11 @@ window.onload = function() {
 
     for(i = 0; i < 4; i ++) {
         console.log("c"+i, cards[i], cardIdToToken(cards[i]));
-        document.getElementById("c"+i).src = cardIdToImage(cards[i]);
+        const img = document.getElementById("c"+i);
+        const src = cardIdToImage(cards[i]);
+        setTimeout(function() {
+            img.src = src;
+        }, 250);          
     } 
 
     document.getElementById('sol').onclick = function() {
