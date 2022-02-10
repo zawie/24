@@ -14,7 +14,7 @@ button {
     height:120px;
     min-width: 15vh;
     min-height: 15vh;
-    font-size: large;
+    font-size: 100%;
     font-weight: bold;
     color: black;
     border-width: 1vh;
