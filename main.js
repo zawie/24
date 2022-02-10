@@ -93,17 +93,41 @@ function getSolution(cards) {
         for(i in ops) { //5
             for(j in ops) { //5
                 for(k in ops) {//5
-                    const op0 = ops[i];
-                    const op1 = ops[j];
-                    const op2 = ops[k];
-                    const v0 = f(p[0], op0, f(p[1], op1, f(p[2], op2, p[3])));
-                    const v1 = f(f(f(p[0], op0, p[1]), op1, p[2]), op2, p[3]);
-                    const s0 = `${p[0]} ${op0} (${p[1]} ${op1} (${p[2]} ${op2} ${p[3]}))`
-                    const s1 = `((${p[0]} ${op0} ${p[1]}) ${op1} ${p[2]}) ${op2} ${p[3]}`
+                    const a = p[0];
+                    const b = p[1];
+                    const c = p[2];
+                    const d = p[3];
+
+                    const x = ops[i];
+                    const y = ops[j];
+                    const z = ops[k];
+
+                    //a.(b.(c.d))
+                    const v0 = f(a, x, f(b, y, f(c, z, d)));
+                    const s0 = `${a} ${x} (${b} ${y} (${c} ${z} ${d}))`
+                    //((a.b).c).d
+                    const v1 = f(f(f(a, x, b), y, c), z, d);
+                    const s1 = `((${a} ${x} ${b}) ${y} ${c}) ${z} ${d}`
+                    //(a.b).(c.d)
+                    const v2 = f(f(a,x, b), y, f(c, z, d));
+                    const s2 = `(${a} ${x} ${b}) ${y} (${c} ${z} ${d})`
+                    //(a.(b.c)).d
+                    const v3 = f(f(a, x, f(b, y, c), z, d));
+                    const s3 = `(${a} ${x} (${b} ${y} ${c})) ${z} ${d}`
+                    //a.((b.c).d)
+                    const v4 = f(a, x, f(f(b, y, c), z, d));
+                    const s4 = `${a} ${x} ((${b} ${y} ${c}) ${z} ${d})`
+
                     if (v0 == 24) 
                         solutions.push(s0);
                     if (v1 == 24) 
                         solutions.push(s1);
+                    if (v2 == 24) 
+                        solutions.push(s2);
+                    if (v3 == 24) 
+                        solutions.push(s3);
+                    if (v4 == 24) 
+                        solutions.push(s4);
                 }
             }
         }
