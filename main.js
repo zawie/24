@@ -28,7 +28,7 @@ function cardIdToValue(cardId) {
 function cardIdToToken(cardId) {
     const s = ['C','D','S','H'][Math.floor((cardId-1)/13)];
     const r = cardIdToValue(cardId);
-    const v = (r == 1) ? 'a' 
+    const v = (r == 1) ? 'A' 
                 : (r == 11) ? 'J' 
                 : (r == 12) ? 'Q' 
                 : (r == 13) ? 'K' 
@@ -39,10 +39,40 @@ function cardIdToToken(cardId) {
 /**
  * 
  * @param {int} cardId (an integer between 1 and 52)
+ * @return the corresponding image token
+ */
+function cardIdToSuitelessToken(cardId) {
+    const r = cardIdToValue(cardId);
+    const v = (r == 1) ? 'A' 
+                : (r == 11) ? 'J' 
+                : (r == 12) ? 'Q' 
+                : (r == 13) ? 'K' 
+                : r;
+    return v+"u";
+}
+
+/**
+ * 
+ * @param {int} cardId (an integer between 1 and 52)
+ * @return the corresponding image
+ */
+function tokenToImage(token) {
+    return `deck/Minicard_${token}.svg`;
+}
+
+/**
+ * 
+ * @param {int} cardId (an integer between 1 and 52)
  * @return the corresponding image
  */
 function cardIdToImage(cardId) {
-    return `deck/Minicard_${cardIdToToken(cardId)}.svg`
+    return tokenToImage(cardIdToToken(cardId));
+}
+
+function setCardImage(inputId, token) {
+    const element = document.getElementById("c"+inputId);
+    element.src = tokenToImage(token);
+    element.alt = token;         
 }
 
 const permutator = (inputArr) => {
@@ -138,10 +168,6 @@ function getSolution(cards) {
 
 window.onload = function() {
 
-    document.getElementById('help').onclick = function() {
-        alert("Combine the four cards using addition, subtraction, multiplication, division, and exponentiation such that it totals 24.\n(A=1, J=11, Q=12, K=13)")
-    }
-
     let cards = null;
     let solutions = [];
     while (solutions.length < 1) {
@@ -151,19 +177,16 @@ window.onload = function() {
 
     for(i = 0; i < 4; i ++) {
         console.log("c"+i, cards[i], cardIdToToken(cards[i]));
-        const img = document.getElementById("c"+i);
-        const src = cardIdToImage(cards[i]);
-        setTimeout(function() {
-            img.src = src;
-        }, 250);          
+        setCardImage(i, cardIdToToken(cards[i]));       
     } 
 
-    document.getElementById('sol').onclick = function() {
-        const l = solutions.length;
-        const body = solutions.join('\n')
-        if (l == 1 ? confirm(`There is ${1} solution:\n${body}`) 
-                    :confirm(`There are ${l} solutions:\n${body}`))
-            location.reload();
-    }
+    for(i = 0; i < 4; i ++) {
+        const elementId = i;
+        const cardId = cards[i];
+        document.getElementById("c"+elementId).onclick = function() {
+            setCardImage(elementId, cardIdToSuitelessToken(cardId));       
+        }
+    } 
+
 }
 

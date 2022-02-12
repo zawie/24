@@ -1,13 +1,5 @@
 html, body { height: 98%; padding: 10px; background: gray;}
 
-img { height: 90%; 
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
-    display: block;
-}
-
 button {
 	position:fixed;
 	width:120px;
@@ -24,6 +16,13 @@ button {
 }
 .quad { width: 50%; height: 50%; float: left; }
 
+.card { height: 90%; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: block;
+}
 .my-float{
 	margin-top:22px;
 }
