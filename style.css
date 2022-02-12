@@ -23,7 +23,7 @@ button {
 
 #card-view {
     width: 100%;
-    height: 89vh;
+    height: 89%;
 }
 
 #bottom-bar {
@@ -31,8 +31,8 @@ button {
     position: fixed;
     bottom: 0;
     left: 0;
-    height:11vh;
-    width: 100vw;
+    height: 11%;
+    width: 100%;
     background: #333333;
     color: #ffffff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
