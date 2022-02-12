@@ -99,8 +99,10 @@ function render(displaySettingsArray) {
             const element = document.getElementById("c"+i);
             //Set carrd image
             if (stngs.isIntermediate) {
-                element.src = tokenToImage('back');
+                element.type = "button";
+                element.value = "  "+stngs.value+"  ";
             } else {
+                element.type = "image";
                 element.src = tokenToImage(stngs.token);
                 element.alt = stngs.token; 
             }  
