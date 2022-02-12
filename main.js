@@ -3,6 +3,8 @@ const CARD = Symbol("card");
 const INTER = Symbol("inter");
 const HEAD = Symbol("head");
 
+const OPS = ["+", "-", "*", "/", "^"];
+
 /**
  * @return a set of four card ids (4 distinct numbers from 1-52)
  */
@@ -201,23 +203,60 @@ window.onload = function() {
         const cardId = cards[i];
         document.getElementById("c"+elementId).onclick = function() {
             const last = stack[stack.length - 1];
-            if (!(last.type == CARD || last.type == INTER)  ) {
+            if (((stack.length+1) % 3) != 0) { //Ops should be every third.
                 stack.push({type: CARD, elementId, cardId});
-                display[elementId] = cardIdToSuitelessToken(cardId);
+                if (last.type == OP) {
+                    display[elementId] = "uH";
+                } else {
+                    display[elementId] = cardIdToSuitelessToken(cardId);
+                }
                 render(display);
             }
+            console.log(stack);
         }
     } 
 
     document.getElementById("undo").onclick = function() {
         const last = stack[stack.length - 1];
-        if  (!(last.type == HEAD))
+   
+        let resetCard = (cardNode)=> {
+            display[cardNode.elementId] = cardIdToToken(cardNode.cardId);
+            render(display);
+        }
+
+        if (last.type == OP) {
             stack.pop();
-        if (last.type == CARD) {
+            resetCard(stack.pop());
             display[last.elementId] = cardIdToToken(last.cardId);
             render(display);
         }
+
+        if(last.type == CARD || last.type == INTER) {
+            if ( ((stack.length-1) % 3) == 0) {
+                resetCard(stack.pop()); //pop card
+                stack.pop();            //pop op
+                resetCard(stack.pop()); //pop card
+            } else if (((stack.length-1) % 3) == 1) {
+                resetCard(stack.pop()); //pop card
+            } else if (((stack.length-1) % 3) == 2) {
+                stack.pop();            //pop op
+                resetCard(stack.pop()); //pop card
+
+            }
+        }
+
+        console.log(stack);
     }
+
+    OPS.forEach(op => {
+        document.getElementById("op"+op).onclick = function() {
+            const last = stack[stack.length - 1];
+            if (((stack.length+1) % 3) == 0) {
+                stack.push({type: OP, op});
+            }
+            console.log(stack);
+        }
+    })
 
 }
 
