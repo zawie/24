@@ -102,13 +102,14 @@ function cardIdToImage(cardId) {
 function render(displaySettingsArray) {
     displaySettingsArray.forEach((stngs, i) => {
             const element = document.getElementById("c"+i);
+            const won = stngs.value == 24 && stack.length == 8
             //Set carrd image
             if (stngs.isIntermediate) {
                 element.type = "button";
                 const space = " ".repeat(stngs.isSelected ? 3 : 2);
                 element.value = space+stngs.value+space;
-                element.style.backgroundColor = stngs.value == 24 ? "lightyellow" : 'white'
-                element.style.color = stngs.value == 24 ? 'goldenrod'
+                element.style.backgroundColor = won ? "lightyellow" : 'white'
+                element.style.color = won ? 'goldenrod'
                                         : (stngs.value % 2) == 0 ? 'red' : 'black';
             } else {
                 element.type = "image";
