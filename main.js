@@ -1,3 +1,8 @@
+const OP = Symbol("op");
+const CARD = Symbol("card");
+const INTER = Symbol("inter");
+const HEAD = Symbol("head");
+
 /**
  * @return a set of four card ids (4 distinct numbers from 1-52)
  */
@@ -175,8 +180,10 @@ function getSolution(cards) {
     return solutions;
 }
 
-
 window.onload = function() {
+
+    const stack = [];
+    stack.push({type: HEAD});
 
     let cards = null;
     let solutions = [];
@@ -193,10 +200,24 @@ window.onload = function() {
         const elementId = i;
         const cardId = cards[i];
         document.getElementById("c"+elementId).onclick = function() {
-            display[elementId] = cardIdToSuitelessToken(cardId);
-            render(display);
+            const last = stack[stack.length - 1];
+            if (!(last.type == CARD || last.type == INTER)  ) {
+                stack.push({type: CARD, elementId, cardId});
+                display[elementId] = cardIdToSuitelessToken(cardId);
+                render(display);
+            }
         }
     } 
+
+    document.getElementById("undo").onclick = function() {
+        const last = stack[stack.length - 1];
+        if  (!(last.type == HEAD))
+            stack.pop();
+        if (last.type == CARD) {
+            display[last.elementId] = cardIdToToken(last.cardId);
+            render(display);
+        }
+    }
 
 }
 
