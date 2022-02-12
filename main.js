@@ -4,6 +4,21 @@ const HEAD = Symbol("head");
 
 const OPS = ["+", "-", "*", "/", "^"];
 
+const f = (a, o, b) => {
+    if (a == NaN || b == NaN)
+        return NaN;
+    if (o == "+") 
+        return a+b;
+    if (o == "-") 
+        return a-b;
+    if (o == "*") 
+        return a*b;
+    if (o == "/")
+        return (a % b) == 0 ? a/b : NaN; //Exclude fractions
+    if (o == "^") 
+        return Math.pow(a,b);
+}
+
 /**
  * @return a set of four card ids (4 distinct numbers from 1-52)
  */
@@ -75,19 +90,23 @@ function cardIdToImage(cardId) {
     return tokenToImage(cardIdToToken(cardId));
 }
 
-function setCardImage(inputId, token) {
-    const element = document.getElementById("c"+inputId);
-    element.src = tokenToImage(token);
-    element.alt = token;         
-}
-
 /**
  * Sets all the card images accordingly
  * @param {string[]} tokenArray an array of tokens such that the i-th element corresponds to the i-th token
  */
-function render(tokenArray) {
-    tokenArray.forEach((token, i) => {
-            setCardImage(i, token)   
+function render(displaySettingsArray) {
+    displaySettingsArray.forEach((stngs, i) => {
+            const element = document.getElementById("c"+i);
+            //Set carrd image
+            if (stngs.isIntermediate) {
+                element.src = tokenToImage('back');
+            } else {
+                element.src = tokenToImage(stngs.token);
+                element.alt = stngs.token; 
+            }  
+            //Other visual effects:
+            element.style.height = stngs.isSelected ? "98%" : "90%";
+            element.style.opacity = stngs.isTransluscent ? 0.5 : 1;
     })
 }
 
@@ -112,23 +131,7 @@ const permutator = (inputArr) => {
   }
   
 function getSolution(cards) {
-    const ops = ["+", "-", "*", "/", "^"];
     var solutions = [];
-
-    function f(a, o, b) {
-        if (a == NaN || b == NaN)
-            return NaN;
-        if (o == "+") 
-            return a+b;
-        if (o == "-") 
-            return a-b;
-        if (o == "*") 
-            return a*b;
-        if (o == "/")
-            return (a % b) == 0 ? a/b : NaN; //Exclude fractions
-        if (o == "^") 
-            return Math.pow(a,b);
-    }
 
     const permutations = permutator(cards);
     for(l in permutations) { //4!
@@ -136,17 +139,17 @@ function getSolution(cards) {
         for(i = 0; i < 4; i ++) {
             p[i] = cardIdToValue(p[i]);
         }
-        for(i in ops) { //5
-            for(j in ops) { //5
-                for(k in ops) {//5
+        for(i in OPS) { //5
+            for(j in OPS) { //5
+                for(k in OPS) {//5
                     const a = p[0];
                     const b = p[1];
                     const c = p[2];
                     const d = p[3];
 
-                    const x = ops[i];
-                    const y = ops[j];
-                    const z = ops[k];
+                    const x = OPS[i];
+                    const y = OPS[j];
+                    const z = OPS[k];
 
                     //a.(b.(c.d))
                     const v0 = f(a, x, f(b, y, f(c, z, d)));
@@ -193,7 +196,15 @@ window.onload = function() {
         solutions = getSolution(cards)
     }
 
-    const display = cards.map(cardId => cardIdToToken(cardId));
+    const display = cards.map(cardId => {
+        return {
+            isIntermediate: false,
+            token: cardIdToToken(cardId),
+            isSelected: false,
+            isVisible: true,
+            isTransluscent: false,
+        }
+    });
 
     render(display);
 
@@ -203,11 +214,29 @@ window.onload = function() {
         document.getElementById("c"+elementId).onclick = function() {
             const last = stack[stack.length - 1];
             if (((stack.length+1) % 3) != 0) { //Ops should be every third.
-                stack.push({type: OPERAND, elementId, cardId});
+                stack.push({
+                    type: OPERAND, 
+                    elementId, 
+                    cardId, 
+                    value: cardIdToValue(cardId),
+                    displaySettings: display[elementId]
+                });
+
                 if (last.type == OPERATOR) {
-                    display[elementId] = "uH";
+                    //Un-select first operand
+                    const firstOperand = stack[stack.length - 3];
+                    display[firstOperand.elementId].isSelected = false;
+                    display[firstOperand.elementId].isTransluscent = true;
+
+                    //Modify currrent card to reflect new value
+                    const a = stack[stack.length - 3].value;
+                    const o = stack[stack.length - 2].op;
+                    const b = stack[stack.length - 1].value;
+
+                    display[elementId].isIntermediate = true;
+                    display[elementId].value = f(a,o,b);
                 } else {
-                    display[elementId] = cardIdToSuitelessToken(cardId);
+                    display[elementId].isSelected = true;
                 }
                 render(display);
             }
@@ -218,15 +247,31 @@ window.onload = function() {
     document.getElementById("undo").onclick = function() {
         const last = stack[stack.length - 1];
    
-        let resetCard = (cardNode)=> {
-            display[cardNode.elementId] = cardIdToToken(cardNode.cardId);
+        let resetCard = (poppedCardNode)=> {
+            const elementId = poppedCardNode.elementId;
+            for(i = stack.length - 1; i > 1; i--) {
+                const node = stack[i];
+                if (node.elementId == elementId) {
+                    display[elementId] = node.displaySettings;
+                    display[elementId].isTransluscent = false;
+                    render(display);
+                    return;
+                }
+            }
+            display[elementId] = {
+                isIntermediate: false,
+                token: cardIdToToken(poppedCardNode.cardId),
+                isSelected: false,
+                isVisible: true,
+                isTransluscent: false
+            };
             render(display);
         }
 
         if (last.type == OPERATOR) {
             stack.pop();
             resetCard(stack.pop());
-            display[last.elementId] = cardIdToToken(last.cardId);
+            display[last.elementId].isSelected = false;
             render(display);
         }
 
