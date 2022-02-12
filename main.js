@@ -75,6 +75,12 @@ function setCardImage(inputId, token) {
     element.alt = token;         
 }
 
+function render(tokenArray) {
+    tokenArray.forEach((token, i) => {
+            setCardImage(i, token)   
+    })
+}
+
 const permutator = (inputArr) => {
     let result = [];
   
@@ -175,16 +181,16 @@ window.onload = function() {
         solutions = getSolution(cards)
     }
 
-    for(i = 0; i < 4; i ++) {
-        console.log("c"+i, cards[i], cardIdToToken(cards[i]));
-        setCardImage(i, cardIdToToken(cards[i]));       
-    } 
+    const display = cards.map(cardId => cardIdToToken(cardId));
+
+    render(display);
 
     for(i = 0; i < 4; i ++) {
         const elementId = i;
         const cardId = cards[i];
         document.getElementById("c"+elementId).onclick = function() {
-            setCardImage(elementId, cardIdToSuitelessToken(cardId));       
+            display[elementId] = cardIdToSuitelessToken(cardId);
+            render(display);
         }
     } 
 
