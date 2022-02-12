@@ -107,7 +107,7 @@ function render(displaySettingsArray) {
                 element.type = "button";
                 const space = " ".repeat(stngs.isSelected ? 3 : 2);
                 element.value = space+stngs.value+space;
-                element.style.backgroundColor = "white";
+                element.style.backgroundColor = stngs.value == 24 ? "lightyellow" : 'white'
                 element.style.color = stngs.value == 24 ? 'goldenrod'
                                         : (stngs.value % 2) == 0 ? 'red' : 'black';
             } else {
