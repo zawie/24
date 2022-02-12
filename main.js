@@ -102,7 +102,7 @@ function cardIdToImage(cardId) {
 function render(displaySettingsArray) {
     displaySettingsArray.forEach((stngs, i) => {
             const element = document.getElementById("c"+i);
-            const won = stngs.value == 24 && stack.length == 8
+            const won = stngs.value == 24 && stack.length >= 8
             //Set carrd image
             if (stngs.isIntermediate) {
                 element.type = "button";
