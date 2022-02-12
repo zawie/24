@@ -101,10 +101,13 @@ function render(displaySettingsArray) {
             if (stngs.isIntermediate) {
                 element.type = "button";
                 element.value = "  "+stngs.value+"  ";
+                element.style.backgroundColor = "white";
+                element.style.color = (stngs.value % 2) == 0 ? 'red' : 'black';
             } else {
                 element.type = "image";
                 element.src = tokenToImage(stngs.token);
                 element.alt = stngs.token; 
+                element.style.backgroundColor = "";
             }  
             //Other visual effects:
             element.style.height = stngs.isSelected ? "98%" : "90%";
@@ -202,6 +205,7 @@ window.onload = function() {
         return {
             isIntermediate: false,
             token: cardIdToToken(cardId),
+            value: cardIdToValue(cardId),
             isSelected: false,
             isVisible: true,
             isTransluscent: false,
@@ -216,13 +220,13 @@ window.onload = function() {
         document.getElementById("c"+elementId).onclick = function() {
             const last = stack[stack.length - 1];
             if (((stack.length+1) % 3) != 0) { //Ops should be every third.
-                stack.push({
+                const thisNode = {
                     type: OPERAND, 
                     elementId, 
                     cardId, 
-                    value: cardIdToValue(cardId),
                     displaySettings: display[elementId]
-                });
+                }
+                stack.push(thisNode);
 
                 if (last.type == OPERATOR) {
                     //Un-select first operand
@@ -231,12 +235,13 @@ window.onload = function() {
                     display[firstOperand.elementId].isTransluscent = true;
 
                     //Modify currrent card to reflect new value
-                    const a = stack[stack.length - 3].value;
+                    const a = display[stack[stack.length - 3].elementId].value;
                     const o = stack[stack.length - 2].op;
-                    const b = stack[stack.length - 1].value;
+                    const b = display[stack[stack.length - 1].elementId].value;
+                    thisNode.value = f(a,o,b);
 
                     display[elementId].isIntermediate = true;
-                    display[elementId].value = f(a,o,b);
+                    display[elementId].value = thisNode.value;
                 } else {
                     display[elementId].isSelected = true;
                 }
@@ -263,6 +268,7 @@ window.onload = function() {
             display[elementId] = {
                 isIntermediate: false,
                 token: cardIdToToken(poppedCardNode.cardId),
+                value: cardIdToValue(poppedCardNode.cardId),
                 isSelected: false,
                 isVisible: true,
                 isTransluscent: false

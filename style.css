@@ -2,18 +2,19 @@ html, body { height: 100%; padding: 10px; background: gray;}
 
 input {
     font-size: 500%;
-    font-weight: bold;
+    font-weight: bolder;
     color: black;
-    border-width: 1vh;
+    border-width: 10px;
     border-color: rgb(25, 27, 24);
 	text-align:center;
     font-family: "Andale Mono", monospace;
+
 }
 button {
     height: 9.5vh;
     width: 9.5vh;
     font-size: 125%;
-    font-weight: bold;
+    font-weight: bolder;
     color: black;
     border-width: 1vh;
     border-color: rgb(25, 27, 24);
