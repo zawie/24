@@ -37,10 +37,21 @@ button {
     color: #ffffff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
-    justify-content: "center";
-    align-items: "center";
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  #skip {
+      background-color:rgb(201, 106, 106);
   }
   
+  #undo {
+    background-color:rgb(219, 210, 129);
+    }
+
   .op-box {
     display: flex;
     flex-direction: row;
