@@ -75,6 +75,10 @@ function setCardImage(inputId, token) {
     element.alt = token;         
 }
 
+/**
+ * Sets all the card images accordingly
+ * @param {string[]} tokenArray an array of tokens such that the i-th element corresponds to the i-th token
+ */
 function render(tokenArray) {
     tokenArray.forEach((token, i) => {
             setCardImage(i, token)   

@@ -1,11 +1,8 @@
 html, body { height: 98%; padding: 10px; background: gray;}
 
 button {
-	position:fixed;
-	width:120px;
-    height:120px;
-    min-width: 15vh;
-    min-height: 15vh;
+    height: 9.5vh;
+    width: 9.5vh;
     font-size: 125%;
     font-weight: bold;
     color: black;
@@ -23,18 +20,31 @@ button {
     margin-bottom: auto;
     display: block;
 }
-.my-float{
-	margin-top:22px;
+
+#card-view {
+    width: 100vh;
+    height: 89vh;
 }
 
-#sol {
-    bottom:40px;
-    right:40px;
-    background-color:greenyellow;
-}
-
-#help {
-    bottom:40px;
-    left:40px;
-    background-color:gold;
-}
+#bottom-bar {
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height:11vh;
+    width: 100vw;
+    background: #333333;
+    color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    justify-content: "center";
+    align-items: "center";
+  }
+  
+  .op-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 10px;
+  }
