@@ -102,7 +102,9 @@ function render(displaySettingsArray) {
                 element.type = "button";
                 element.value = "  "+stngs.value+"  ";
                 element.style.backgroundColor = "white";
-                element.style.color = (stngs.value % 2) == 0 ? 'red' : 'black';
+                element.style.color = stngs.value == 24 ? 'goldenrod'
+                                        : (stngs.value % 2) == 0 ? 'red' : 'black';
+
             } else {
                 element.type = "image";
                 element.src = tokenToImage(stngs.token);
