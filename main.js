@@ -1,6 +1,5 @@
-const OP = Symbol("op");
-const CARD = Symbol("card");
-const INTER = Symbol("inter");
+const OPERATOR = Symbol("operator");
+const OPERAND = Symbol("operand");
 const HEAD = Symbol("head");
 
 const OPS = ["+", "-", "*", "/", "^"];
@@ -204,8 +203,8 @@ window.onload = function() {
         document.getElementById("c"+elementId).onclick = function() {
             const last = stack[stack.length - 1];
             if (((stack.length+1) % 3) != 0) { //Ops should be every third.
-                stack.push({type: CARD, elementId, cardId});
-                if (last.type == OP) {
+                stack.push({type: OPERAND, elementId, cardId});
+                if (last.type == OPERATOR) {
                     display[elementId] = "uH";
                 } else {
                     display[elementId] = cardIdToSuitelessToken(cardId);
@@ -224,24 +223,23 @@ window.onload = function() {
             render(display);
         }
 
-        if (last.type == OP) {
+        if (last.type == OPERATOR) {
             stack.pop();
             resetCard(stack.pop());
             display[last.elementId] = cardIdToToken(last.cardId);
             render(display);
         }
 
-        if(last.type == CARD || last.type == INTER) {
+        if(last.type == OPERAND) {
             if ( ((stack.length-1) % 3) == 0) {
-                resetCard(stack.pop()); //pop card
-                stack.pop();            //pop op
-                resetCard(stack.pop()); //pop card
+                resetCard(stack.pop()); //pop OPERAND
+                stack.pop();            //pop OPERATOR
+                resetCard(stack.pop()); //pop OPERAND
             } else if (((stack.length-1) % 3) == 1) {
-                resetCard(stack.pop()); //pop card
+                resetCard(stack.pop()); //pop OPERAND
             } else if (((stack.length-1) % 3) == 2) {
                 stack.pop();            //pop op
-                resetCard(stack.pop()); //pop card
-
+                resetCard(stack.pop()); //pop OPERAND
             }
         }
 
@@ -252,7 +250,7 @@ window.onload = function() {
         document.getElementById("op"+op).onclick = function() {
             const last = stack[stack.length - 1];
             if (((stack.length+1) % 3) == 0) {
-                stack.push({type: OP, op});
+                stack.push({type: OPERATOR, op});
             }
             console.log(stack);
         }
