@@ -4,6 +4,11 @@ const HEAD = Symbol("head");
 
 const OPS = ["+", "-", "*", "/", "^"];
 
+let display = [];
+
+const stack = [];
+stack.push({type: HEAD});
+
 const f = (a, o, b) => {
     if (a == NaN || b == NaN)
         return NaN;
@@ -100,19 +105,20 @@ function render(displaySettingsArray) {
             //Set carrd image
             if (stngs.isIntermediate) {
                 element.type = "button";
-                element.value = "  "+stngs.value+"  ";
+                const space = " ".repeat(stngs.isSelected ? 3 : 2);
+                element.value = space+stngs.value+space;
                 element.style.backgroundColor = "white";
                 element.style.color = stngs.value == 24 ? 'goldenrod'
                                         : (stngs.value % 2) == 0 ? 'red' : 'black';
-
             } else {
                 element.type = "image";
                 element.src = tokenToImage(stngs.token);
                 element.alt = stngs.token; 
                 element.style.backgroundColor = "";
             }  
-            //Other visual effects:
+
             element.style.height = stngs.isSelected ? "98%" : "90%";
+            //Other visual effects:
             element.style.opacity = stngs.isTransluscent ? 0.5 : 1;
     })
 }
@@ -191,10 +197,56 @@ function getSolution(cards) {
     return solutions;
 }
 
-window.onload = function() {
+function undo() {
+    const last = stack[stack.length - 1];
 
-    const stack = [];
-    stack.push({type: HEAD});
+    let resetCard = (poppedCardNode)=> {
+        const elementId = poppedCardNode.elementId;
+        for(i = stack.length - 1; i > 1; i--) {
+            const node = stack[i];
+            if (node.elementId == elementId) {
+                display[elementId] = node.displaySettings;
+                display[elementId].isTransluscent = false;
+                display[elementId].isSelected = false;
+                render(display);
+                return;
+            }
+        }
+        display[elementId] = {
+            isIntermediate: false,
+            token: cardIdToToken(poppedCardNode.cardId),
+            value: cardIdToValue(poppedCardNode.cardId),
+            isSelected: false,
+            isVisible: true,
+            isTransluscent: false
+        };
+        render(display);
+    }
+
+    if (last.type == OPERATOR) {
+        stack.pop();
+        resetCard(stack.pop());
+        display[last.elementId].isSelected = false;
+        render(display);
+    }
+
+    if(last.type == OPERAND) {
+        if ( ((stack.length-1) % 3) == 0) {
+            resetCard(stack.pop()); //pop OPERAND
+            stack.pop();            //pop OPERATOR
+            resetCard(stack.pop()); //pop OPERAND
+        } else if (((stack.length-1) % 3) == 1) {
+            resetCard(stack.pop()); //pop OPERAND
+        } else if (((stack.length-1) % 3) == 2) {
+            stack.pop();            //pop op
+            resetCard(stack.pop()); //pop OPERAND
+        }
+    }
+
+    console.log(stack);
+}
+
+window.onload = function() {
 
     let cards = null;
     let solutions = [];
@@ -203,7 +255,7 @@ window.onload = function() {
         solutions = getSolution(cards)
     }
 
-    const display = cards.map(cardId => {
+    display = cards.map(cardId => {
         return {
             isIntermediate: false,
             token: cardIdToToken(cardId),
@@ -220,6 +272,9 @@ window.onload = function() {
         const elementId = i;
         const cardId = cards[i];
         document.getElementById("c"+elementId).onclick = function() {
+            if (stack[stack.length - 1].type == OPERAND && ((stack.length+1) % 3) == 0) {
+                undo();
+            }
             const last = stack[stack.length - 1];
             if (((stack.length+1) % 3) != 0) { //Ops should be every third.
                 const thisNode = {
@@ -253,53 +308,7 @@ window.onload = function() {
         }
     } 
 
-    document.getElementById("undo").onclick = function() {
-        const last = stack[stack.length - 1];
-   
-        let resetCard = (poppedCardNode)=> {
-            const elementId = poppedCardNode.elementId;
-            for(i = stack.length - 1; i > 1; i--) {
-                const node = stack[i];
-                if (node.elementId == elementId) {
-                    display[elementId] = node.displaySettings;
-                    display[elementId].isTransluscent = false;
-                    render(display);
-                    return;
-                }
-            }
-            display[elementId] = {
-                isIntermediate: false,
-                token: cardIdToToken(poppedCardNode.cardId),
-                value: cardIdToValue(poppedCardNode.cardId),
-                isSelected: false,
-                isVisible: true,
-                isTransluscent: false
-            };
-            render(display);
-        }
-
-        if (last.type == OPERATOR) {
-            stack.pop();
-            resetCard(stack.pop());
-            display[last.elementId].isSelected = false;
-            render(display);
-        }
-
-        if(last.type == OPERAND) {
-            if ( ((stack.length-1) % 3) == 0) {
-                resetCard(stack.pop()); //pop OPERAND
-                stack.pop();            //pop OPERATOR
-                resetCard(stack.pop()); //pop OPERAND
-            } else if (((stack.length-1) % 3) == 1) {
-                resetCard(stack.pop()); //pop OPERAND
-            } else if (((stack.length-1) % 3) == 2) {
-                stack.pop();            //pop op
-                resetCard(stack.pop()); //pop OPERAND
-            }
-        }
-
-        console.log(stack);
-    }
+    document.getElementById("undo").onclick = undo;
 
     OPS.forEach(op => {
         document.getElementById("op"+op).onclick = function() {
