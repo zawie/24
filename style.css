@@ -10,7 +10,11 @@ input {
     font-family: "Andale Mono", monospace;
 
 }
-button {
+
+form {
+    background-image: url('/deck/Minicard_10C.svg');
+}
+.square-butt {
     height: 9.5vh;
     width: 9.5vh;
     font-size: 125%;
@@ -21,6 +25,7 @@ button {
 	text-align:center;
     font-family: "Andale Mono", monospace;
 }
+
 .quad { width: 50%; height: 50%; float: left; }
 
 .card { height: 90%; 

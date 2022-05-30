@@ -111,13 +111,15 @@ function render(displaySettingsArray) {
                 element.style.backgroundColor = won ? "lightyellow" : 'white'
                 element.style.color = won ? 'goldenrod'
                                         : (stngs.value % 2) == 0 ? 'red' : 'black';
+                element.style.backgroundImage = url(tokenToImage('blank'));
+                element.style.backgroundRepeat = "no-repeat";
             } else {
                 element.type = "image";
                 element.src = tokenToImage(stngs.token);
                 element.alt = stngs.token; 
                 element.style.backgroundColor = "";
             }  
-
+            element.textContent = "bruh"
             element.style.height = stngs.isSelected ? "98%" : "90%";
             //Other visual effects:
             element.style.opacity = stngs.isTransluscent ? 0.5 : 1;
@@ -273,7 +275,11 @@ window.onload = function() {
         const elementId = i;
         const cardId = cards[i];
         document.getElementById("c"+elementId).onclick = function() {
-            if (stack[stack.length - 1].type == OPERAND && ((stack.length+1) % 3) == 0) {
+            if (stack[stack.length - 1].type == OPERAND && 
+                    (((stack.length+1) % 3) == 0 || stack[stack.length-1].isSelected || stack[stack.length-1].isTransluscent)) 
+            {
+                if (stack[stack.length-1].isTransluscent)
+                    return;
                 undo();
             }
             const last = stack[stack.length - 1];
