@@ -1,4 +1,14 @@
-html, body { height: 98%; padding: 10px; background: gray;}
+ #table { 
+    height: 98%; 
+    padding: 10px; 
+    background: 
+    gray;
+}
+
+html, body  {
+    height: 98%; 
+    background:  gray;
+}
 
 img { height: 90%; 
     margin-left: auto;
@@ -38,4 +48,8 @@ button {
     bottom:40px;
     left:40px;
     background-color:gold;
+}
+
+#top {
+    width: 100vw;
 }

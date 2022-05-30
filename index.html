@@ -6,24 +6,39 @@
     <link rel="stylesheet" href="style.css">
     <script src="main.js"></script>
   </head>
+
   <body>
+    <div id="top">
+        <br/>
+        <label for="difficulty">Difficulty: </label>
+    
+        <select name="difficulty" id="difficulty">
+          <option value="Any">Any</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+          <option value="Extreme">Extreme</option>
+        </select> 
+      </div>
     <button id="sol" class="float">
         Solve
     </button>
     <button id="help" class="float">
         About
     </button>
-    <div class = "quad">
-        <img id="c0" src="deck/Minicard_back.svg">
+    <div id="table">
+        <div class = "quad">
+            <img id="c0" src="deck/Minicard_back.svg">
+        </div>
+        <div class = "quad">
+            <img id="c1" src="deck/Minicard_back.svg">
+        </div>
+        <div class = "quad">
+            <img id="c2" src="deck/Minicard_back.svg">
+        </div>
+        <div class = "quad">
+            <img id="c3" src="deck/Minicard_back.svg">
+        </div>  
     </div>
-    <div class = "quad">
-        <img id="c1" src="deck/Minicard_back.svg">
-    </div>
-    <div class = "quad">
-        <img id="c2" src="deck/Minicard_back.svg">
-    </div>
-    <div class = "quad">
-        <img id="c3" src="deck/Minicard_back.svg">
-    </div>  
 </body>
 </html>
