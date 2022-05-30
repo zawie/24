@@ -155,7 +155,7 @@ function getCardsAndSolutionByDifficulty(difficulty) {
     let min = 1;
     let max = 1000; 
     switch (difficulty) {
-        case "Any":
+        case "Anything":
             min = 1
             max = 1000
             break;
@@ -204,7 +204,7 @@ function readDifficulty(str) {
         case "Anya":
             return "Anya"
     }
-    return "Any"
+    return "Anything"
 }
 window.onload = function() {
 
