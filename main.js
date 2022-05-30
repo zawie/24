@@ -171,7 +171,7 @@ function getCardsAndSolutionByDifficulty(difficulty) {
             min = 2
             max = 10
             break;
-        case "Extreme":
+        case "Anya":
             min = 1
             max = 1
             break;
@@ -201,8 +201,8 @@ function readDifficulty(str) {
             return "Medium"
         case "Hard":
             return "Hard"
-        case "Extreme":
-            return "Extreme"
+        case "Anya":
+            return "Anya"
     }
     return "Any"
 }
