@@ -168,7 +168,7 @@ function getCardsAndSolutionByDifficulty(difficulty) {
             max = 50
             break;
         case "Hard":
-            min = 1
+            min = 2
             max = 10
             break;
         case "Extreme":
